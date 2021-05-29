@@ -1,0 +1,30 @@
+version: "3.1"
+
+services:
+    zapay_api:
+        build: ./api
+        image: zapay_api
+        container_name: zapay_api
+        restart: always
+        volumes:
+            - ./api:/api
+        ports:
+        - 5000:5000
+  
+    zapay_front:
+        image: node:latest
+        container_name: zapay_front
+        environment:
+            - NODE_ENV=development
+        restart: always
+        depends_on:
+            - zapay_api
+        ports:
+            - 3000:3000
+        volumes:
+            - ./frontend:/frontend
+        working_dir: /frontend
+        command: yarn install
+        command: yarn start
+
+        
